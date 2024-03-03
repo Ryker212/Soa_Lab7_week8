@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Feb 19, 2024, 10:35:01 PM by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="soa" name="th.ac.ku.kps.eng.cpe.soa.model.Phonenumber" optimistic-lock="none" table="phonenumber">
+        <id name="phonenumberId" type="java.lang.Integer">
+            <column name="PHONENUMBER_ID"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="th.ac.ku.kps.eng.cpe.soa.model.Customer" fetch="select" name="customer">
+            <column name="CUS_ID"/>
+        </many-to-one>
+        <property name="number" type="string">
+            <column length="255" name="NUMBER"/>
+        </property>
+    </class>
+</hibernate-mapping>
