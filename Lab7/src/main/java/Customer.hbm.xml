@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated Feb 19, 2024, 10:35:22 PM by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 2, 2024, 1:50:26 AM by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class catalog="soa" name="th.ac.ku.kps.eng.cpe.soa.model.Customer" optimistic-lock="none" table="customer">
         <id name="cusId" type="java.lang.Integer">
@@ -10,7 +10,7 @@
             <column length="255" name="NAME"/>
         </property>
         <property name="sername" type="string">
-            <column length="30" name="SERNAME" not-null="true"/>
+            <column length="50" name="SERNAME" not-null="true"/>
         </property>
         <property name="username" type="string">
             <column length="30" name="username" not-null="true"/>
@@ -21,7 +21,7 @@
         <property name="userroles" type="string">
             <column length="12" name="USERROLES"/>
         </property>
-        <set fetch="select" inverse="true" lazy="true" name="phonenumbers" table="phonenumber">
+        <set fetch="select" inverse="true" lazy="false" name="phonenumbers" table="phonenumber">
             <key>
                 <column name="CUS_ID"/>
             </key>

@@ -1,8 +1,7 @@
-package th.ac.ku.kps.eng.cpe.soa.controller;
+package th.ac.ku.kps.eng.cpe.controller;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,10 +39,15 @@ public class CustomerService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Customer> getUsers() {
 		return cusDao.getAllCustomers();
-
 	}
 
-	private static String JWT_TOKEN_KEY = "15467saf";
+	@GET
+	@Path("/customers/{param}")
+	public Customer getCustomerByname(@PathParam("param") String name) {
+		return cusDao.getCustomerByName(name);
+	}
+	
+	private static String JWT_TOKEN_KEY = "dassdadsa";
 
 	private String generateToken(Customer c) {
 		try {
@@ -55,7 +59,7 @@ public class CustomerService {
 					.withIssuedAt(issuedAt)
 					// Expiration date.
 					.withExpiresAt(expirationDate)
-					// User id - here we can putanything we want, but for theexample userId is
+					// User id - here we can put anything we want, but for the example userId is
 					// appropriate.
 					.withClaim("username", c.getUsername())
 					// Issuer of the token.
@@ -63,7 +67,7 @@ public class CustomerService {
 					// And the signing algorithm.
 					.sign(algorithm);
 		} catch (JWTCreationException e) {
-			// LOGGER.error(e.getMessage(), e);
+//			LOGGER.error(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -77,13 +81,13 @@ public class CustomerService {
 				DecodedJWT jwt = verifier.verify(token);
 				// Get the userId from token claim.
 				Claim cus = jwt.getClaim("username");
-				System.out.println(cus.asString());
+//				System.out.println(cus.asString());
 				// Find user by token subject(id).
 				// c userDao = new UserDao();
 				return cusDao.findCustomer(cus.asString());
 			}
 		} catch (JWTVerificationException e) {
-			// LOGGER.error(e.getMessage(), e);
+//			LOGGER.error(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -107,26 +111,16 @@ public class CustomerService {
 		return Response.ok().entity(responsePojo).build();
 	}
 
+//	private Customer validUser(String userName, String pwd) {
+//		return cusDao.findCustomer(c);
+//	}
+
+
 	private Customer validUser(Customer c) {
-		return cusDao.findCustomer(c);
+		return cusDao.findCustomer(c.getUsername());
+
 	}
 
-	/*
-	 * @GET
-	 * 
-	 * @Path("/customers/{param}") public Customer
-	 * getCustomerByname(@PathParam("param") String userName) { return
-	 * cusDao.findCustomer(userName); }
-	 * 
-	 * @POST
-	 * 
-	 * @Path("/customers/create")
-	 * 
-	 * @Consumes(MediaType.APPLICATION_JSON) public Response createCustomer(Customer
-	 * cus) throws IOException { int i = cusDao.addCustomer(cus); if (i == 1) return
-	 * Response.status(201).entity(" create successfully").build(); else return
-	 * Response.status(201).entity(" create fail").build(); }
-	 */
 	@Path("/customers/{name}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -141,8 +135,22 @@ public class CustomerService {
 			return Response.status(200).entity(responsePojo).build();
 		} else {
 			responsePojo.setMsg("Permission denied");
+
 			responsePojo.setStatus("403");
 			return Response.status(403).entity(responsePojo).build();
 		}
 	}
+
+	/*
+	 * @POST
+	 * 
+	 * @Path("/customers/create")
+	 * 
+	 * @Consumes(MediaType.APPLICATION_JSON) public Response createCustomer(Customer
+	 * cus) throws IOException { int i = cusDao.addCustomer(cus); if (i == 1) return
+	 * Response.status(201).entity(" create successfully"+cusDao.getAllCustomers().
+	 * get(0)).build(); else return
+	 * Response.status(201).entity(" create fail").build(); }
+	 */
+
 }
